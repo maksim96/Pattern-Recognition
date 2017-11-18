@@ -135,10 +135,6 @@ acs-*.bib
 *.slt[0-9]*
 *.stc[0-9]*
 
-# minted
-_minted*
-*.pyg
-
 # morewrites
 *.mw
 
@@ -153,16 +149,11 @@ _minted*
 
 # sagetex
 *.sagetex.sage
-*.sagetex.py
 *.sagetex.scmd
 
 # scrwfile
 *.wrt
 
-# sympy
-*.sout
-*.sympy
-sympy-plots-for-*.tex/
 
 # pdfcomment
 *.upa

@@ -26,3 +26,4 @@ axs.legend(loc='upper right')
 # show the plots
 plt.show()
 
+

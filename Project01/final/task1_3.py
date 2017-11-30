@@ -41,10 +41,10 @@ def weibull(x, k, a):
 def weibull_plot(x, h, k, a, N):
     """Plots histogram h with values in x and a Weibull distribution with parameters k, a."""
     x1 = np.linspace(0, len(h) + 1, num=1000)
-    density = weibull(x1, k, a)
+    density = weibull(x1, k, a)*N
 
     plt.plot(x1, density, label="Weibull fit")
-    plt.plot(x, h / N, label="Google data")
+    plt.plot(x, h, label="Google data")
     plt.legend()
 
 

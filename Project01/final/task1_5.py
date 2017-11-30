@@ -70,7 +70,11 @@ def calculate_fractal_dimension(impath, divs):
     w = linear_regression(X, np.log2(number_pixels))
 
     # plot log of scales vs log of pixels and linear fit
-    plt.plot(log_scales, log_scales * w[0] + w[1], log_scales, np.log2(number_pixels), 'rs')
+    fig = plt.figure()
+    axs = fig.add_subplot('111')
+    plt.plot(log_scales, log_scales * w[0] + w[1], label=r"$%.3f\cdot\log(\frac{1}{s_i})+%.3f$" % (w[0],w[1]))
+    plt.plot(log_scales, np.log2(number_pixels), 'rs')
+    axs.legend(loc='best', fancybox=True)
     plt.show()
 
     # the fractal dimension is defined as the slope of the linear regression, return it

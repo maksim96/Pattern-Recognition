@@ -33,6 +33,7 @@ def newton(h, x, N, kappa0, alpha0, iterations=20):
 
     return ka
 
+
 def weibull(x, k, a):
     return (k / a) * (x / a) ** (k - 1) * np.exp(-(x / a) ** k)
 
@@ -56,7 +57,7 @@ def step_derivative(y, t0, h, x, N):
 if __name__ == '__main__':
     # read data and prepare it
 
-    arr = np.loadtxt('myspace.csv', delimiter=',', usecols=1)
+    arr = np.loadtxt('data/myspace.csv', delimiter=',', usecols=1)
 
     h = arr[arr > 0]
     N = np.sum(h)

@@ -40,7 +40,7 @@ if __name__ == "__main__":
     #######################################################################
     # define type of data to be read and read data from file
     dt = np.dtype([('w', np.float), ('h', np.float), ('g', np.str_, 1)])
-    data = np.loadtxt('whData.dat', dtype=dt, comments='#', delimiter=None)
+    data = np.loadtxt('data/whData.dat', dtype=dt, comments='#', delimiter=None)
 
     # read height, weight and gender information into 1D arrays
     ws = np.array([d[0] for d in data])
@@ -51,7 +51,7 @@ if __name__ == "__main__":
     # 2nd alternative for reading multi-typed data from a text file
     ##########################################################################
     # read data as 2D array of data type 'object'
-    data = np.loadtxt('whData.dat', dtype=np.object, comments='#', delimiter=None)
+    data = np.loadtxt('data/whData.dat', dtype=np.object, comments='#', delimiter=None)
 
     # read height and weight data into 2D array (i.e. into a matrix)
     X = data[:, 0:2].astype(np.float)

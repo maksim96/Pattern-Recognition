@@ -1,44 +1,16 @@
 \documentclass{beamer}
 \usepackage[german,english]{babel}
-\usepackage[utf8x]{inputenc}
+\usepackage[utf8]{inputenc}
 
 \usepackage{graphicx}
-\usepackage{svg}
-\usepackage{wrapfig}
-\usepackage{eurosym}
-\usepackage{tabularx}
-\usepackage{multirow}
-
-\usepackage{listings}
-\usepackage{color}
-
-\definecolor{codegreen}{rgb}{0,0.6,0}
-\definecolor{codegray}{rgb}{0.5,0.5,0.5}
-\definecolor{codepurple}{rgb}{0.58,0,0.82}
-\definecolor{backcolour}{rgb}{1.0,1.0,1.0}
-
-\lstdefinestyle{mystyle}{
-	backgroundcolor=\color{backcolour},   
-	commentstyle=\color{codegreen},
-	keywordstyle=\color{magenta},
-	numberstyle=\tiny\color{codegray},
-	stringstyle=\color{codepurple},
-	basicstyle=\footnotesize,
-	breakatwhitespace=false,         
-	breaklines=true,                 
-	captionpos=b,                    
-	keepspaces=true,                 
-	numbers=left,                    
-	numbersep=5pt,                  
-	showspaces=false,                
-	showstringspaces=false,
-	showtabs=false,                  
-	tabsize=2
-}
-
-\lstset{style=mystyle}
-
-\usetheme{CambridgeUS}
+%\usepackage{svg}
+%\usepackage{wrapfig}
+%\usepackage{eurosym}
+%\usepackage{tabularx}
+%\usepackage{multirow}
+%\usepackage{listings}
+%\usepackage{color}
+\usetheme{Darmstadt}
 % Other valid themes
 %   Antibes, Bergen, Berkeley, Berlin, Copenhagen
 %   Darmstadt, Dresden, Frankfurt, Goettingen, Hannover
@@ -83,6 +55,15 @@ Fit polynomials:
 \begin{align*}
 	y(x) = \sum_{j=0}^{d}w_jx^j
 \end{align*}
+Use least squares method with Vandermonde matrix:
+\begin{align*}
+\begin{pmatrix}
+1 & x_0 & x_0^2 & \cdots & x_0^n \\ 
+1 & x_1 & x_1^2 & \cdots & x_1^n \\
+\vdots & \vdots & \vdots & \ddots &\vdots \\
+1 & x_n & x_n^2 & \cdots & x_n^n \\ 
+\end{pmatrix}\\
+\end{align*}
 \end{frame}
 
 %\begin{frame}
@@ -111,7 +92,8 @@ Fit polynomials:
 	\frametitle{Conditional expectation for missing value prediction}
 	Fit bi-variate Gaussian and use conditional Expectation for missing value prediction:
 	\begin{align*}
-		\mathbb{E}[y|x_0] = \int y p(y|x_0) d y
+		\mathbb{E}[w|h_0] &= \int w p(w|h_0) dw \\
+						  &= \mu_w + \rho \frac{\sigma_w}{\sigma_h}(h_0-\mu_h)
 	\end{align*}
 \end{frame}
 
@@ -133,9 +115,9 @@ Fit polynomials:
 	\end{align*}
 	to a Bayesian regression assuming a Gaussian prior
 	\begin{align*}
-		p(\mathbf{w}) \sim \mathcal{N}(\mathbf{w}|\mathbf{y}_0,\sigma^2_0,\mathbf{I})
+		p(\mathbf{w}) \sim \mathcal{N}(\mathbf{w}|\mu_0,\sigma^2_0\mathbf{I})
 	\end{align*}
-	with $\mathbf{y}0_0=0$ and $\sigma^2_0=3$
+	with $\mu_0=\mathbf{0}$ and $\sigma^2_0=3$
 	
 \end{frame}
 
@@ -151,6 +133,51 @@ Fit polynomials:
 	\frametitle{Boolean functions and the Boolean Fourier transform}
 \end{frame}
 \section{Task 2.4 (2)}
+
+\begin{frame}
+	\frametitle{(Naive) $k$ nearest neighbor}
+	Use the train data set as a prediction for the test data set \\\medskip
+	Compute the $k$ nearest neighbors for each data point in the data set \\\medskip
+	And use the majorant of those $k$ labels as a prediction \\\medskip
+	Experiment on \texttt{data2.dat} with $k \in {1,3,5}$
+\end{frame}
+
+\begin{frame}
+\frametitle{Results prediction}
+	\begin{columns}[t]
+	\column{.5\textwidth}
+	\centering
+	\includegraphics[width=5cm]{graphics/testWithCorrect}\\
+	\includegraphics[width=5cm]{graphics/1NNPrediction}
+	\column{.5\textwidth}
+	\centering
+	\includegraphics[width=5cm]{graphics/3NNPrediction}\\
+	\includegraphics[width=5cm]{graphics/5NNPrediction}
+\end{columns}
+\end{frame}
+
+\begin{frame}
+\frametitle{Accuracy and running time}
+Accuracies of $k$NN predictions:
+	\begin{itemize}
+		\item 0.77 for $k=1$
+		\item 0.82 for $k=3$
+		\item 0.83 for $k=5$
+	\end{itemize}
+
+Running times of our distance calculation vs \texttt{sklearn.metrics.pairwise}:
+\begin{table}[]
+	\centering
+	\label{my-label}
+	\begin{tabular}{l|l|l}
+		k & our implementation &  \texttt{sklearn}\\ \hline
+		1    & 0.02s & 0.003s \\ \hline
+		3    & 0.02s & 0.003s \\ \hline
+		5    & 0.02s & 0.003s \\ 
+	\end{tabular}
+\end{table}
+
+\end{frame}
 
 \section{Task 2.5}
 \begin{frame}
@@ -185,10 +212,10 @@ Fit polynomials:
 	\begin{table}[]
 		\centering
 		\label{my-label}
-		\begin{tabular}{l|l|l|}
+		\begin{tabular}{l|l|l}
 			& Median          & Midpoint        \\ \hline
 			Cycle    & 0.0142476272583s & 0.0099373626709s \\ \hline
-			Max. Var & 0.0136028242111s & 0.0105255293846s \\ \hline
+			Max. Var & 0.0136028242111s & 0.0105255293846s \\ 
 		\end{tabular}
 	\caption{Mean running time in seconds, 100 runs}
 	\end{table}

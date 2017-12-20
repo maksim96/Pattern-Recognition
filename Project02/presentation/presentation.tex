@@ -131,7 +131,93 @@ Use least squares method with Vandermonde matrix:
 \section{Task 2.4 (1)}
 \begin{frame}
 	\frametitle{Boolean functions and the Boolean Fourier transform}
+	The functions
+	\begin{align*}
+		\phi_S(x) = \prod_{i\in S} x_i, x\in \{-1,1\}^m, S \subseteq \{1,...,m\}
+	\end{align*}
+	form a Fourier basis, w.r.t. the inner product $f,g:\{-1,1\}^m \to \mathbb{R}$:
+	\begin{align*}
+		<f,g> = \frac{1}{2^m}\sum_{x\in\{-1,1\}^m} f(x)g(x)
+	\end{align*}
 \end{frame}
+
+\begin{frame}
+	Then for any $f:\{-1,1\}^m\to \mathbb{R}$:
+	\begin{align*}
+		f(x) = \sum_{S \subseteq \{1,...,m\}} w_S \phi_S(x)
+	\end{align*}
+	where
+	\begin{align*}
+		w_S = <f,\phi_S>
+	\end{align*}
+	are the Fourier-coefficients.
+\end{frame}
+
+\begin{frame}
+	We have $2^m$ different input vectors $x_1,x_2,...,x_{2^m} \in \{-1,1\}^m$, and
+	$2^m$ different basis functions $\phi_{S_1},...,\phi_{S_{2^m}}$.
+	Thus we have:
+	\begin{align*}
+		\left(\begin{matrix}
+		f(x_1)\\
+		f(x_2)\\
+		\vdots\\
+		f(x_{2^m})
+		\end{matrix}\right) &= 
+		\left(\begin{matrix}
+		\phi_{S_1}(x_1) \dots \phi_{S_{2^m}}(x_1)\\
+		\vdots\qquad \ddots\qquad \vdots\\
+		\phi_{S_1}(x_{2^m}) \dots \phi_{S_{2^m}}(x_{2^m})
+		\end{matrix}\right) \cdot
+		\left(\begin{matrix}
+		w_{S_1}\\
+		\vdots\\
+		w_{S_{2^m}}
+		\end{matrix}\right) \\&=
+		\left(\begin{matrix}
+		\phi_{S_1}^T\\
+		\vdots \\
+		\phi_{S_{2^m}}^T
+		\end{matrix}\right)\cdot
+		\left(\begin{matrix}
+		w_{S_1}\\
+		\vdots\\
+		w_{S_{2^m}}
+		\end{matrix}\right)
+		 = \Phi w
+	\end{align*}	
+\end{frame}
+
+\begin{frame}
+	\frametitle{Results}
+	Rule 110 and 126 are given by
+	\begin{align*}
+		y_{110} &= (-1,1,1,1,-1,1,1-1)^T \\\bigskip
+		y_{126} &=  (-1,1,1,1,1,1,1-1)^T
+	\end{align*}
+	\begin{align*}
+	w^* = \text{argmin}||\mathbf{X} w - y||^2	
+	\end{align*}
+	yields for $\mathbf{X}w^*$:
+	\begin{align*}
+			\hat{y_{110}}&= (-0.25,  0.25,  0.25,  0.75, -0.75, -0.25, -0.25,  0.25)^T\\
+			\hat{y_{126}}&= (0,0,0,0,0,0,0,0)^T
+	\end{align*}
+	
+\end{frame}
+
+\begin{frame}
+	\begin{align*}
+	w^* = \text{argmin}||\mathbf{\Phi} w - y||^2	
+	\end{align*}
+	yields for $\mathbf{\mathbf{\Phi}}w^*$:
+	\begin{align*}
+	\hat{y}_{110} &= (-1,1,1,1,-1,1,1-1)^T \\\bigskip
+	\hat{y}_{126} &=  (-1,1,1,1,1,1,1-1)^T
+	\end{align*}
+	These rules are correct.
+\end{frame}
+
 \section{Task 2.4 (2)}
 
 \begin{frame}

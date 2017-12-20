@@ -58,10 +58,10 @@ Fit polynomials:
 Use least squares method with Vandermonde matrix:
 \begin{align*}
 \begin{pmatrix}
-1 & x_0 & x_0^2 & \cdots & x_0^n \\ 
-1 & x_1 & x_1^2 & \cdots & x_1^n \\
+1 & x_1 & x_1^2 & \cdots & x_1^d \\ 
+1 & x_2 & x_2^2 & \cdots & x_2^d \\
 \vdots & \vdots & \vdots & \ddots &\vdots \\
-1 & x_n & x_n^2 & \cdots & x_n^n \\ 
+1 & x_n & x_n^2 & \cdots & x_n^d \\ 
 \end{pmatrix}\\
 \end{align*}
 \end{frame}
@@ -124,7 +124,7 @@ Use least squares method with Vandermonde matrix:
 \begin{frame}
 	\frametitle{Results}
 	\begin{figure}
-		\includegraphics[height=0.85\textheight]{graphics/task3}
+		\includegraphics[height=0.8\textheight]{graphics/task3}
 	\end{figure}
 \end{frame}
 
@@ -232,17 +232,36 @@ Minimizing
 
 \begin{frame}
 \frametitle{Results prediction}
-	\begin{columns}[t]
-	\column{.5\textwidth}
-	\centering
-	\includegraphics[width=5cm]{graphics/testWithCorrect}\\
-	\includegraphics[width=5cm]{graphics/1NNPrediction}
-	\column{.5\textwidth}
-	\centering
-	\includegraphics[width=5cm]{graphics/3NNPrediction}\\
-	\includegraphics[width=5cm]{graphics/5NNPrediction}
-\end{columns}
-\end{frame}
+	Correct labels of test data:
+	\begin{figure}
+	\includegraphics[height=0.8\textheight]{graphics/testWithCorrect}
+	\end{figure}
+\end{frame} 
+
+\begin{frame}
+\frametitle{Results prediction}
+Prediction of 1NN:
+\begin{figure}
+	\includegraphics[height=0.8\textheight]{graphics/1NNPrediction}
+\end{figure}
+\end{frame} 
+
+\begin{frame}
+\frametitle{Results prediction}
+Prediction of 3NN:
+\begin{figure}
+	\includegraphics[height=0.8\textheight]{graphics/3NNPrediction}
+\end{figure}
+\end{frame} 
+
+\begin{frame}
+\frametitle{Results prediction}
+Prediction of 5NN:
+\begin{figure}
+	\includegraphics[height=0.8\textheight]{graphics/5NNPrediction}
+\end{figure}
+\end{frame} 
+
 
 \begin{frame}
 \frametitle{Accuracy and running time}

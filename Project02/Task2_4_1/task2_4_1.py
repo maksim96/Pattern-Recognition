@@ -13,6 +13,7 @@ def getBigPhi(n):
 
 def getFourierCoeff(rule):
     return None
+
 X = getX(3, [1, -1])
 
 rule110 = np.array([-1, 1, 1, 1, -1, 1, 1, -1])
@@ -32,6 +33,7 @@ print('y^ for rule110: ', np.dot(X, coeffs110))
 print('y^ for rule126: ', np.dot(X, coeffs126))
 
 Phi = getBigPhi(3)
+print('rank of PHI',np.linalg.matrix_rank(Phi))
 pinv2 = np.linalg.pinv(Phi)
 coeffs110_ = np.dot(pinv2, rule110)
 coeffs126_ = np.dot(pinv2, rule126)

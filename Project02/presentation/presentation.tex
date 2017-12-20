@@ -90,7 +90,7 @@ Use least squares method with Vandermonde matrix:
 
 \begin{frame}
 	\frametitle{Conditional expectation for missing value prediction}
-	Fit bi-variate Gaussian and use conditional Expectation for missing value prediction:
+	Fit bi-variate Gaussian and use conditional expectation for missing value prediction:
 	\begin{align*}
 		\mathbb{E}[w|h_0] &= \int w p(w|h_0) dw \\
 						  &= \mu_w + \rho \frac{\sigma_w}{\sigma_h}(h_0-\mu_h)
@@ -108,17 +108,18 @@ Use least squares method with Vandermonde matrix:
 \section{Task 2.3}
 
 \begin{frame}
-	\frametitle{Bayesian regression for missing value prediction}
-	Compare fifth degree polynomial
-	\begin{align*}
-		y(x) = \sum_{j=0}^{5}w_jx^j
-	\end{align*}
-	to a Bayesian regression assuming a Gaussian prior
-	\begin{align*}
-		p(\mathbf{w}) \sim \mathcal{N}(\mathbf{w}|\mu_0,\sigma^2_0\mathbf{I})
-	\end{align*}
-	with $\mu_0=\mathbf{0}$ and $\sigma^2_0=3$
-	
+\frametitle{Bayesian regression for missing value prediction}
+Compare fifth degree polynomial
+\begin{align*}
+y(x) = \sum_{j=0}^{5}w_jx^j
+\end{align*}
+to a Bayesian regression assuming a Gaussian prior
+\begin{align*}
+p(\mathbf{w}) \sim \mathcal{N}(\mathbf{w}|\mu_0,\sigma^2_0\mathbf{I})
+\end{align*}
+with $\mu_0=\mathbf{0}$ and $\sigma^2_0=3$ \\\medskip
+Use: \[w = (X^TX + \frac{\sigma^2}{\sigma_0^2})^{-1}X^Ty\]
+
 \end{frame}
 
 \begin{frame}
@@ -155,7 +156,7 @@ Use least squares method with Vandermonde matrix:
 
 \begin{frame}
 	\frametitle{Boolean functions and the Boolean Fourier transform}
-	\textbf{Subtask 1}:\\
+	\textbf{Subtask 1}.\\
 	Rule 110 and 126 are given by
 	\begin{align*}
 	y_{110} &= (-1,1,1,1,-1,1,1-1)^T \\\bigskip
@@ -164,7 +165,7 @@ Use least squares method with Vandermonde matrix:
 	\begin{align*}
 	w^* = \text{argmin}||\mathbf{X} w - y||^2	
 	\end{align*}
-	yields for $\mathbf{X}w^*$:
+	yields for $\hat{y} = \mathbf{X}w^*$:
 	\begin{align*}
 	\hat{y}_{110}&= (-0.25,  0.25,  0.25,  0.75, -0.75, -0.25, -0.25,  0.25)^T\\
 	\hat{y}_{126}&= (0,0,0,0,0,0,0,0)^T
@@ -172,43 +173,42 @@ Use least squares method with Vandermonde matrix:
 \end{frame}
 
 \begin{frame}
-	\textbf{Subtask 2/3}:
-	We have $2^m$ different input vectors $x_1,x_2,...,x_{2^m} \in \{-1,1\}^m$, and
-	$2^m$ different basis functions $\phi_{S_1},...,\phi_{S_{2^m}}$.
-	Thus we have:
+	\textbf{Subtask 2}.
+	There are $2^m$ different basis functions $\phi_{S_i}:\{-1,1\}^m \to \{-1,1\}, i\in\{1,...,2^m\}$, 
+	and we have $2^m$ different input vectors $x_1,x_2,...,x_{2^m} \in \{-1,1\}^m$.\\
+	Thus:
 	\begin{align*}
 		\left(\begin{matrix}
 		f(x_1)\\
-		f(x_2)\\
 		\vdots\\
 		f(x_{2^m})
 		\end{matrix}\right) &= 
-		\underbrace{\left(\begin{matrix}
+		\left(\begin{matrix}
 		\phi_{S_1}(x_1) \dots \phi_{S_{2^m}}(x_1)\\
 		\vdots\qquad \ddots\qquad \vdots\\
 		\phi_{S_1}(x_{2^m}) \dots \phi_{S_{2^m}}(x_{2^m})
-		\end{matrix}\right) }_{=:\mathbf{\Phi}}\cdot
+		\end{matrix}\right) \cdot
 		\left(\begin{matrix}
 		w_{S_1}\\
 		\vdots\\
 		w_{S_{2^m}}
 		\end{matrix}\right) \\&=
-		\left(\begin{matrix}
-		\phi_{S_1}^T\\
+		\underbrace{\left(\begin{matrix}
+		\mathbf{\phi}(x_1)^T\\
 		\vdots \\
-		\phi_{S_{2^m}}^T
-		\end{matrix}\right)\cdot
-		\left(\begin{matrix}
+		\phi(x_{2^m})^T
+		\end{matrix}\right)}_{=:\mathbf{\Phi}}\cdot
+		\underbrace{\left(\begin{matrix}
 		w_{S_1}\\
 		\vdots\\
 		w_{S_{2^m}}
-		\end{matrix}\right)
+		\end{matrix}\right)}_{=:w}
 		 = \mathbf{\Phi} w
 	\end{align*}	
 \end{frame}
 
 \begin{frame}
-Minimizing
+\textbf{Subtask 3.} Minimizing
 	\begin{align*}
 	w^* = \text{argmin}||\mathbf{\Phi} w - y||^2	
 	\end{align*}
@@ -227,7 +227,7 @@ Minimizing
 	Use the train data set as a prediction for the test data set \\\medskip
 	Compute the $k$ nearest neighbors for each data point in the data set \\\medskip
 	And use the majorant of those $k$ labels as a prediction \\\medskip
-	Experiment on \texttt{data2.dat} with $k \in {1,3,5}$
+	Experiment on \texttt{data2.dat} with $k \in \{1,3,5\}$
 \end{frame}
 
 \begin{frame}
@@ -315,19 +315,43 @@ Running times of our distance calculation vs \texttt{sklearn.metrics.pairwise}:
 \end{frame}
 
 \begin{frame}
-	\frametitle{Timings for 1-NN per combination}
-	\begin{table}[]
+	\begin{columns}[t]
+		\column{.5\textwidth}
 		\centering
-		\label{my-label}
-		\begin{tabular}{l|l|l}
-			& Median          & Midpoint        \\ \hline
-			Cycle    & 0.0142476272583s & 0.0099373626709s \\ \hline
-			Max. Var & 0.0136028242111s & 0.0105255293846s \\ 
-		\end{tabular}
-	\caption{Mean running time in seconds, 100 runs}
-	\end{table}
+		\includegraphics[width=6cm]{graphics/median_cycle}\\
+		\column{.5\textwidth}
+		\centering
+		\includegraphics[width=6cm]{graphics/median_maxvar}\\
+	\end{columns}
 \end{frame}
 
+%\begin{frame}
+%	\frametitle{Timings for 1-NN per combination}
+%	\begin{table}[]
+%		\centering
+%		\label{my-label}
+%		\begin{tabular}{l|l|l}
+%			& Median          & Midpoint        \\ \hline
+%			Cycle    & 0.0142476272583s & 0.0099373626709s \\ \hline
+%			Max. Var & 0.0136028242111s & 0.0105255293846s \\ 
+%		\end{tabular}
+%	\caption{Mean running time in seconds, 100 runs}
+%	\end{table}
+%\end{frame}
+
+\begin{frame}
+\frametitle{Timings for 1-NN per combination}
+\begin{table}[]
+	\centering
+	\label{my-label}
+	\begin{tabular}{l|l|l}
+		& Median          & Midpoint        \\ \hline
+		Cycle    & 0.01425s & 0.00994s \\ \hline
+		Max. Var & 0.01360s & 0.01053s \\ 
+	\end{tabular}
+	\caption{Mean running time in seconds, 100 runs}
+\end{table}
+\end{frame}
 
 
 %\bibliography{Bibliography}

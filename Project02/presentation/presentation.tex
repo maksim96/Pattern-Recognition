@@ -62,8 +62,9 @@ Use least squares method with Vandermonde matrix:
 1 & x_2 & x_2^2 & \cdots & x_2^d \\
 \vdots & \vdots & \vdots & \ddots &\vdots \\
 1 & x_n & x_n^2 & \cdots & x_n^d \\ 
-\end{pmatrix}\\
+\end{pmatrix}
 \end{align*}
+Used pseudo-inverse for numerical stability
 \end{frame}
 
 %\begin{frame}
@@ -118,7 +119,7 @@ to a Bayesian regression assuming a Gaussian prior
 p(\mathbf{w}) \sim \mathcal{N}(\mathbf{w}|\mu_0,\sigma^2_0\mathbf{I})
 \end{align*}
 with $\mu_0=\mathbf{0}$ and $\sigma^2_0=3$ \\\medskip
-Use: \[w = (X^TX + \frac{\sigma^2}{\sigma_0^2})^{-1}X^Ty\]
+Use: \[w = (\mathbf{X}^T\mathbf{X}+ \frac{\sigma^2}{\sigma_0^2})^{-1}\mathbf{X}^T\mathbf{y}\]
 
 \end{frame}
 
@@ -352,7 +353,10 @@ Running times of our distance calculation vs \texttt{sklearn.metrics.pairwise}:
 	\caption{Mean running time in seconds, 100 runs}
 \end{table}
 \end{frame}
-
+\begin{frame}
+\centering
+{\huge Thank you for your attention!}
+\end{frame}
 
 %\bibliography{Bibliography}
 %\bibliographystyle{plain}

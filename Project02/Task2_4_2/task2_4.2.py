@@ -3,9 +3,25 @@ import matplotlib.pyplot as plt
 import time
 from sklearn.metrics.pairwise import euclidean_distances
 
-def knn(k, X, x):
+def knnSingle(k,X,x):
     distances = np.sqrt(((X - x)**2).sum(axis=1))
     return np.argpartition(distances, k)[:k]
+
+def knnNaive(k,data, input):
+    prediction = np.empty([input.shape[0]])
+    for i, x in enumerate(input):
+        kNearestNeighbors = knnSingle(k, data[:, :2], x[:2])
+        prediction[i] = int(np.sign(data[kNearestNeighbors, 2].sum()))
+
+    return prediction
+
+def knnDistanceWithSklearn(k,data, input):
+    allDistances = euclidean_distances(input[:, :2], data[:, :2])
+    indices = np.argpartition(allDistances, k, axis=1)[:, :k]
+    neighborLabels = data[indices][:, :, 2]
+    prediction = np.sign(neighborLabels.sum(axis=1).flatten())
+
+    return prediction
 
 data = np.genfromtxt('data2-test.dat')
 
@@ -22,22 +38,14 @@ plt.savefig("testWithCorrect.png")
 
 for k in [1,3,5]:
     plt.figure()
-    prediction = np.empty([input.shape[0]])
-    start = time.time()
-    for i,x in enumerate(input):
-        kNearestNeighbors = knn(k,data[:,:2], x[:2])
-        prediction[i] =  int(np.sign(data[kNearestNeighbors,2].sum()))
 
+    start = time.time()
+    knnNaive(k,data, input)
     end=time.time()
     print(end-start)
 
     start = time.time()
-    allDistances = euclidean_distances(input[:,:2], data[:,:2])
-    indices = np.argpartition(allDistances, k, axis=1)[:,:k]
-    neighborLabels = data[indices][:,:,2]
-    prediction = np.sign(neighborLabels.sum(axis=1).flatten())
-
-
+    prediction = knnDistanceWithSklearn(k,data, input)
     end = time.time()
     print(end - start)
 

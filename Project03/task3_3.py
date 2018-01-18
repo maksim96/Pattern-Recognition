@@ -30,7 +30,7 @@ pca_projected3d = np.dot(v[:,[-1,-2,-3]].T, x)
 # estimate class means and covariances
 means = 1./n * np.sum(x_classes, axis=2, keepdims=True)
 norm_classes = x_classes - means
-covs = np.matmul(norm_classes, np.transpose(norm_classes,axes=(0,2,1)))
+covs = 1./n * np.matmul(norm_classes, np.transpose(norm_classes,axes=(0,2,1)))
 
 # within class scatter matrix
 sw = np.sum(covs, axis=0)
@@ -50,10 +50,13 @@ lda_projected3d = np.real(np.dot(v[:, sorted[[-1, -2, -3]]].T, x))
 # visualization
 # -------------
 
+colors = np.repeat(['C0','C1','C2'],50)
+print(colors.shape)
+
 fig = plt.figure(figsize=(8,8))
 # 2D PCA
 ax = fig.add_subplot(221)
-ax.scatter(*pca_projected2d)
+ax.scatter(*pca_projected2d, color=colors, alpha=0.6)
 ax.set_xlabel('$u_1$')
 ax.set_ylabel('$u_2$')
 ax.set_xticklabels([])
@@ -62,7 +65,7 @@ ax.set_title("principal component analysis")
 
 # 2D LDA
 ax = fig.add_subplot(222)
-ax.scatter(*lda_projected2d)
+ax.scatter(*lda_projected2d, color=colors, alpha=0.6)
 ax.set_xlabel('$u_1$')
 ax.set_ylabel('$u_2$')
 ax.set_xticklabels([])
@@ -71,7 +74,7 @@ ax.set_title("linear discriminant analysis")
 
 # 3D PCA
 ax = fig.add_subplot(223,projection='3d')
-ax.scatter(*pca_projected3d)
+ax.scatter(*pca_projected3d, color=colors)
 ax.set_xlabel('$u_1$')
 ax.set_ylabel('$u_2$')
 ax.set_zlabel('$u_3$')
@@ -81,7 +84,7 @@ ax.set_zticklabels([])
 
 # 3D LDA
 ax = fig.add_subplot(224,projection='3d')
-ax.scatter(*lda_projected3d)
+ax.scatter(*lda_projected3d, color=colors)
 ax.set_xlabel('$u_1$')
 ax.set_ylabel('$u_2$')
 ax.set_zlabel('$u_3$')

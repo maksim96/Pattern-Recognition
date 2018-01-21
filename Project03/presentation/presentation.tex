@@ -1,0 +1,128 @@
+\documentclass{beamer}
+\usepackage[german,english]{babel}
+\usepackage[utf8]{inputenc}
+
+\usepackage{graphicx}
+%\usepackage{svg}
+%\usepackage{wrapfig}
+%\usepackage{eurosym}
+%\usepackage{tabularx}
+%\usepackage{multirow}
+%\usepackage{listings}
+%\usepackage{color}
+\usetheme{Darmstadt}
+% Other valid themes
+%   Antibes, Bergen, Berkeley, Berlin, Copenhagen
+%   Darmstadt, Dresden, Frankfurt, Goettingen, Hannover
+%   Ilmenau, JuanLesPins, Luebeck, Madrid, Malmoe
+%   Marburg, Montpellier, PaloAlto, Pittsburgh, Rochester
+%   Singapore, Szeged, Warsaw, boxes, default
+
+\usecolortheme{default}
+% Other valid color schemes
+%    albatross, beaver, beetle, crane, dolphin
+%    dove, fly, lily, orchid, rose, seagull
+%    seahorse, whale and the one and only wolverine
+
+\title[Project 3]{Project 3}
+\subtitle{Least squares regression and nearest neighbor classifiers}
+\author{Lukas Drexler, Leif Van Holland, Reza Jahangiri, Mark Springer, Maximilian Thiessen}
+\institute[Universität Bonn]{Rheinische Friedrich-Wilhelms-Universität}
+\date{\today}
+
+\begin{document}
+	
+\begin{frame}%1
+	\titlepage
+\end{frame}
+
+%no table of contents not enough content for that
+%\begin{frame}%2
+%\frametitle{Table of Contents}
+%\tableofcontents%[pausesections]
+%\end{frame}
+
+
+\section{Task 1.1}
+
+\begin{frame}
+\frametitle{Fun with k-means clustering}
+
+\end{frame}
+
+%\begin{frame}
+%\frametitle{Results for $d\in \{1,5,10\}$}
+%\begin{figure}
+%	\includegraphics[height=0.5\textheight]{graphics/poly_1_coeffs}
+%\end{figure}
+
+\section{Task 3.2}
+\begin{frame}
+	\frametitle{Spectral clustering}
+	Given data, $X = \{x_1,\ldots,x_n\} \subset \mathbb{R}^2$, compute similarity matrix:
+	\begin{align*}
+		S_{ij} = e^{-\beta ||x_i-x_j||^2}
+	\end{align*}
+	and the Laplacian $L = D-S$, with diagonal matrix $D$:
+	\begin{align*}
+	D_{ij} = \begin{cases}
+	\sum_j S_{ij} & ,\text{if } i=j\\
+	0 &, \text{otherwise}
+	\end{cases}\\
+	\end{align*}
+	Then compute the eigenvalue decomposition of L. Use the eigenvector of the second smallest eigenvalue to partition the data points, according to the sign of the corresponding entry in the eigenvector.
+\end{frame}
+
+\begin{frame}
+	The result using $\beta = 1:$
+	\includegraphics[width=\linewidth]{graphics/task_3_2}
+\end{frame}
+
+\section{Task 3.3}
+\begin{frame}
+	\frametitle{Dimensionality reduction}
+	This task explores mappings $\mathbb{R}^{500} \to \mathbb{R}^2$, in particular Principal Component Analysis (PCA) and multi-class LDA.
+\end{frame}
+
+\section{Task 3.4}
+
+\begin{frame}
+	\frametitle{Non-monotonous neurons}
+	\begin{align*}
+		y(\mathbf{x}) &= f(\mathbf{w}^T\mathbf{x}-\theta)\\
+		f(z) &= \tanh(\beta z)
+	\end{align*}
+	\begin{align*}
+		y(\mathbf{x})&= f(\mathbf{w},\mathbf{x},\theta)\\
+		\text{where }\\
+		f(\mathbf{w},\mathbf{x},\theta) &= 2\cdot\exp\left[-\frac{1}{2}(\mathbf{w}^T\mathbf{x}-\theta)^2\right]-1
+	\end{align*}
+\end{frame}
+\begin{frame}
+	\begin{align*}
+	E = \frac{1}{2}\sum_{i=1}^{n}(y(\mathbf{x_i})-y_i)^2\\
+	\theta_{t+1} = \theta_{t} - \eta_\theta \frac{\partial E}{\partial \theta}\\
+	\omega_{t+1} \omega_{t} - \eta_\omega \frac{\partial E}{\partial \omega}\\
+	\end{align*}
+	\begin{align*}
+		k(\mathbf{a},\mathbf{b}) = (\mathbf{a}^T\mathbf{b}+c)^d
+	\end{align*}
+\end{frame}
+
+\section{Task 2.5}
+\begin{frame}
+	\frametitle{Exploring numerical instabilities}
+\end{frame}
+
+
+%\bibliography{Bibliography}
+%\bibliographystyle{plain}
+
+%\begin{thebibliography}{}
+%\bibitem{1} 
+%\bibitem{2} 
+%\bibitem{3} 
+%\end{thebibliography}
+
+
+\end{document} 

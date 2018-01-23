@@ -19,6 +19,7 @@ means = np.mean(x, axis=1)
 x = (x.T - means).T
 
 covariance = np.cov(x)
+# we can use that the covariance matrix is symmetric -> use eigh instead of eig
 w, v = np.linalg.eigh(covariance)
 pca_projected2d = np.dot(v[:,[-1,-2]].T, x)
 pca_projected3d = np.dot(v[:,[-1,-2,-3]].T, x)
@@ -81,6 +82,7 @@ ax.set_zlabel('$u_3$')
 ax.set_xticklabels([])
 ax.set_yticklabels([])
 ax.set_zticklabels([])
+ax.set_title("principal component analysis")
 
 # 3D LDA
 ax = fig.add_subplot(224,projection='3d')
@@ -91,6 +93,8 @@ ax.set_zlabel('$u_3$')
 ax.set_xticklabels([])
 ax.set_yticklabels([])
 ax.set_zticklabels([])
+ax.set_title("linear discriminant analysis")
 
 plt.tight_layout(w_pad=5)
+plt.savefig('pca_lda.png',transparent=True,dpi=300)
 plt.show()

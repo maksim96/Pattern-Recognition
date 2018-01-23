@@ -10,7 +10,7 @@
 %\usepackage{multirow}
 %\usepackage{listings}
 %\usepackage{color}
-\usetheme{Darmstadt}
+\usetheme{metropolis}
 % Other valid themes
 %   Antibes, Bergen, Berkeley, Berlin, Copenhagen
 %   Darmstadt, Dresden, Frankfurt, Goettingen, Hannover
@@ -18,7 +18,7 @@
 %   Marburg, Montpellier, PaloAlto, Pittsburgh, Rochester
 %   Singapore, Szeged, Warsaw, boxes, default
 
-\usecolortheme{default}
+% \usecolortheme{default}
 % Other valid color schemes
 %    albatross, beaver, beetle, crane, dolphin
 %    dove, fly, lily, orchid, rose, seagull
@@ -26,7 +26,7 @@
 
 \title[Project 3]{Project 3}
 \subtitle{Least squares regression and nearest neighbor classifiers}
-\author{Lukas Drexler, Leif Van Holland, Reza Jahangiri, Mark Springer, Maximilian Thiessen}
+\author{Lukas Drexler, Leif Van Holland, Reza Jahangiri,\\Mark Springer, Maximilian Thiessen}
 \institute[Universität Bonn]{Rheinische Friedrich-Wilhelms-Universität}
 \date{\today}
 
@@ -93,6 +93,49 @@ The result using kmeans++:
 	This task explores mappings $\mathbb{R}^{500} \to \mathbb{R}^2$, in particular Principal Component Analysis (PCA) and multi-class LDA.
 \end{frame}
 
+\begin{frame}
+	\frametitle{Dimensionality reduction}
+	Idea: Project $n=150$ \emph{zero-mean} data $x_1,...,x_n$ onto eigenvectors $u_1$ and $u_2$ corresponding to largest eigenvalues $\lambda_1 \geq \lambda_2 \geq ... \geq \lambda_n$:
+	\begin{itemize}
+	\item[PCA:] eigenvectors of sample covariance matrix 
+	\[\Sigma = \frac{1}{n+1} \sum_{i=1}^n x_i \cdot x_i^T\]
+	\item[LDA:] eigenvectors of
+	\[S_W^{-1}S_B = \left(\sum_{j=1}^k \Sigma_j\right)^{-1} \sum_{j=1}^k \mu_j \cdot \mu_j^T\]
+	where $\mu_j$ are the mean vectors and $\Sigma_j$ are the covariance matrices for the $k=3$ classes the data points are from
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{PCA and LDA in two dimensions}
+	\includegraphics[width=\linewidth]{graphics/pca_lda_2d}
+\begin{description}
+	\item[Observe:]Data points with same label form clusters\\
+	if projected.
+\end{description}
+\end{frame}
+
+\begin{frame}
+	\frametitle{PCA and LDA in three dimensions}
+	\includegraphics[width=\linewidth]{graphics/pca_lda_3d}
+\begin{description}
+	\item[Observe:] Data points are (per class) located in a\\
+	1D-subspace of $\mathbb{R}^{500}$.
+\end{description}
+\end{frame}
+
+\begin{frame}
+	\frametitle{PCA vs LDA}
+	Why do the results differ?\\
+\hfill\\
+\begin{itemize}
+\item[PCA:] Yields axes of maximum variance in complete data set.\\
+$\Rightarrow$ Preserves as much \emph{variance} as possible.\hfill\\
+\item[LDA:] Uses class labels to maximize distance between class means and minimize class variances.\\
+$\Rightarrow$ Preserves as much \emph{discriminatory} information as possible.\\\hfill\\
+\end{itemize}
+\end{frame}
+
+
 \section{Task 3.4}
 
 \begin{frame}
@@ -111,14 +154,14 @@ The result using kmeans++:
 	\begin{align*}
 	E = \frac{1}{2}\sum_{i=1}^{n}(y(\mathbf{x_i})-y_i)^2\\
 	\theta_{t+1} = \theta_{t} - \eta_\theta \frac{\partial E}{\partial \theta}\\
-	\omega_{t+1} \omega_{t} - \eta_\omega \frac{\partial E}{\partial \omega}\\
+	\omega_{t+1} = \omega_{t} - \eta_\omega \frac{\partial E}{\partial \omega}\\
 	\end{align*}
 	\begin{align*}
 		k(\mathbf{a},\mathbf{b}) = (\mathbf{a}^T\mathbf{b}+c)^d
 	\end{align*}
 \end{frame}
 
-\section{Task 2.5}
+\section{Task 3.5}
 \begin{frame}
 	\frametitle{Exploring numerical instabilities}
 \end{frame}

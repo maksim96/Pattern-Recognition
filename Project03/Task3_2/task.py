@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import scipy.spatial.distance
 
 data = np.genfromtxt('data-clustering-2.csv', delimiter=',')
-beta = 1
+beta = 4
 S = np.exp(scipy.spatial.distance.squareform(scipy.spatial.distance.pdist(data.T, 'sqeuclidean') * -beta))
 L = np.diag(np.sum(S, axis=1)) - S
 
@@ -29,4 +29,5 @@ print(c2.shape)
 plt.scatter(c1[0, :], c1[1, :], c='r')
 plt.scatter(c2[0, :], c2[1, :], c='g')
 
-plt.savefig('task_3_2.png')
+plt.show()
+#plt.savefig('task_3_2.png')

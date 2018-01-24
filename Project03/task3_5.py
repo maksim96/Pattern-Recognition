@@ -73,7 +73,7 @@ plot_data_and_fit(hgt, wgt, x, y)
 print("transf vand error = ",get_error(hgt,wgt,x,y), la.cond(X))
 # method 5:
 # regression on transformed data using the Vandermonde and Tikhonov regularization
-lam = 0.004765
+lam = 1#0.004765
 X = np.vstack((poly.polyvander(trsf(hgt), n), lam*np.identity(n+1)))
 t_wgt = np.hstack((wgt, np.zeros((n+1,))))
 c = la.lstsq(X,t_wgt)[0]
@@ -82,12 +82,12 @@ plot_data_and_fit(hgt, wgt, x, y)
 print("trans regul error = ",get_error(hgt,wgt,x,y),la.cond(X))
 # method 6:
 # regression using scipy solver
-X = poly.polyvander(trsf(hgt), n)
-res = sla.lsmr(X, wgt, damp=1, atol=1e-25, btol=1e-25)
-c = res[0]
-cond = res[6]
-y = np.dot(poly.polyvander(trsf(x),n), c)
-plot_data_and_fit(hgt, wgt, x, y)
-print("scipy lsmr error  = ",get_error(hgt,wgt,x,y), cond)
+# X = poly.polyvander(trsf(hgt), n)
+# res = sla.lsmr(X, wgt, damp=1, atol=1e-25, btol=1e-25)
+# c = res[0]
+# cond = res[6]
+# y = np.dot(poly.polyvander(trsf(x),n), c)
+# plot_data_and_fit(hgt, wgt, x, y)
+# print("scipy lsmr error  = ",get_error(hgt,wgt,x,y), cond)
 
 plt.show()

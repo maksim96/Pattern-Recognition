@@ -31,10 +31,6 @@ def derrFTheta(X, o, y, w, theta):
     return (o+1)*(np.dot(w,X) - theta)
 
 
-def EXY(x,y,f,w,theta):
-    return f(x*w[0] + y*w[1] - theta)
-
-
 def applyL2SVMPolyKernel(x, XS, ys, ms, w0, d, b=1.):
     if x.ndim == 1:
         x = x.reshape(len(x), 1)
@@ -181,8 +177,6 @@ plot_perceptron(*params[best_idx])
 m = trainL2SVMPolyKernel(X,y,2, b=1)
 plot_svm_classification(X, y, m, 2, 1)
 
-plt.show()
-
-
-
-
+plt.figure(1).savefig('figure1.png',transparent=True,dpi=200)
+plt.figure(2).savefig('figure2.png',transparent=True,dpi=200)
+plt.figure(3).savefig('figure3.png',transparent=True,dpi=200)

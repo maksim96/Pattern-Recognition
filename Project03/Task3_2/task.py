@@ -7,11 +7,6 @@ beta = 4
 S = np.exp(scipy.spatial.distance.squareform(scipy.spatial.distance.pdist(data.T, 'sqeuclidean') * -beta))
 L = np.diag(np.sum(S, axis=1)) - S
 
-for i, x in enumerate(data.T):
-    for j, y in enumerate(data.T):
-        if (np.exp(-beta * np.sum((x - y) ** 2)) != S[i, j]):
-            print('FUUUUUUUUUUUUUUUUUUUUUUU')
-
 eigenValues, eigenVectors = np.linalg.eig(L)
 
 idx = eigenValues.argsort()

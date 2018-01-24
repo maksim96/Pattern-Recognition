@@ -3,6 +3,8 @@ import matplotlib.pyplot as plt
 from pylab import *
 from time import clock
 
+def tanh(x, w, theta):
+    return np.squeeze(np.tanh(np.tensordot(w, x, axes=(len(w.shape) - 1, 0)) - theta[..., np.newaxis]))
 
 #d/dx tanh = 1 - tanh^2(x)
 def derrTanhW(X, o, y, w, theta):
@@ -10,10 +12,10 @@ def derrTanhW(X, o, y, w, theta):
 
 
 def derrTanhTheta(X, o, y, w, theta):
-    return 1-o**2
+    return -(1-o**2)
 
 
-def f(x,w,theta):
+def gaussianRBF(x,w,theta):
     # vectorized eval function of perceptron, returns a tensor in the shape of w, where the last dimension
     # contains evaluations for all pairs of parameters.
     return np.squeeze(2*np.exp(-0.5*np.power(np.tensordot(w,x,axes=(len(w.shape)-1,0)) - theta[...,np.newaxis],2))-1)
@@ -23,11 +25,11 @@ def loss(out, y):
     return 0.5 * np.sum(np.power(out - y,2),axis=-1)
 
 
-def derrFW(X, o, y, w, theta):
+def derrGaussianW(X, o, y, w, theta):
     return -X*(o+1)*(np.dot(w,X) - theta)
 
 
-def derrFTheta(X, o, y, w, theta):
+def derrGaussianTheta(X, o, y, w, theta):
     return (o+1)*(np.dot(w,X) - theta)
 
 
@@ -41,8 +43,7 @@ def applyL2SVMPolyKernel(x, XS, ys, ms, w0, d, b=1.):
     k = (b + np.dot(x.T, XS)) ** d
     return np.sign(np.sum(k * ys * ms, axis=1) + w0)
 
-
-def plot_perceptron(w, theta):
+def plot_perceptron(w, theta, f, title=''):
     x1, x2 = np.meshgrid(np.linspace(-2, 2, 100), np.linspace(-2, 2, 100))
     map = np.vstack((np.ravel(x1),np.ravel(x2)))
     Z = f(map, w, theta)#EXY(x1, x2, f, w, theta)
@@ -53,10 +54,14 @@ def plot_perceptron(w, theta):
     axes = plt.gca()
     axes.set_xlim([-2, 2])
     axes.set_ylim([-2, 2])
-
+	
     plt.contourf(x1, x2, Z, cmap='RdYlBu', vmin=-2.5, vmax=2, levels=levels)
-    plt.scatter(X[0, y > 0], X[1, y > 0], color='C0', alpha=0.8)
-    plt.scatter(X[0, y < 0], X[1, y < 0], color='C1', alpha=0.8)
+    plt.scatter(X[0, y > 0], X[1, y > 0], color='C0')
+    plt.scatter(X[0, y < 0], X[1, y < 0], color='C1')
+
+    plt.title(title)
+
+    plt.savefig(title + '.png')
 
     plt.figure()
 
@@ -78,8 +83,12 @@ def plot_svm_classification(X, y, m, d, b):
     axes.set_ylim([-2, 2])
 
     plt.contourf(x1, x2, Z, cmap='RdYlBu', title="L2-KernelSVM with d="+str(d), vmin=-3, vmax=3)
-    plt.scatter(X[0, y > 0], X[1, y > 0], color='C0', alpha=0.8)
-    plt.scatter(X[0, y < 0], X[1, y < 0], color='C1', alpha=0.8)
+    plt.scatter(X[0, y > 0], X[1, y > 0], color='C0')
+    plt.scatter(X[0, y < 0], X[1, y < 0], color='C1')
+
+    plt.title('L2 Polynomial Kernel SVM with d = ' + str(d))
+
+    plt.savefig('svm.png')
 
 
 def trainL2SVMPolyKernel(X, y, d, b=1., C=1., T=1000):
@@ -98,8 +107,8 @@ def trainL2SVMPolyKernel(X, y, d, b=1., C=1., T=1000):
 
 def train_perceptron(X, y, f, dfW, dfTheta, use_line_search=False):
 
-    w = np.random.rand(2)*10
-    theta = np.random.rand(1)*10
+    w = np.random.rand(2)*1
+    theta = np.random.rand(1)*1
 
     init_w = w.copy()
     init_theta = theta.copy()
@@ -161,22 +170,26 @@ def train_perceptron(X, y, f, dfW, dfTheta, use_line_search=False):
 
     return E, w, theta, init_w, init_theta
 
+#train perceptron with activation function f (+ derrivatives), choose best of k random inits. plot results
+def perceptron(f, derrFW, derrFTheta, k, use_line_search=False, plot_title='perceptron'):
+    errors = np.zeros(k)
+    params = list()
+    init_params = list()
+    for i in range(k):
+        e, w, theta, init_w, init_theta = train_perceptron(X, y, f, derrFW, derrFTheta, use_line_search = use_line_search)
+        errors[i] = e
+        params.append((w, theta))
+        init_params.append((init_w, init_theta))
+
+    best_idx = np.argmin(errors)
+    plot_perceptron(*init_params[best_idx], f=f, title=plot_title+' (init)')
+    plot_perceptron(*params[best_idx], f=f, title=plot_title+' (best of ' + str(k) + ')')
 
 X = np.genfromtxt('data/xor-X.csv', delimiter=',')
 y = np.genfromtxt('data/xor-y.csv', delimiter=',')
 
-errors = np.zeros(10)
-params = list()
-init_params = list()
-for i in range(10):
-    e, w, theta, init_w, init_theta = train_perceptron(X,y,f,derrFW,derrFTheta, use_line_search=False)
-    errors[i] = e
-    params.append((w,theta))
-    init_params.append((init_w, init_theta))
-
-best_idx = np.argmin(errors)
-plot_perceptron(*init_params[best_idx])
-plot_perceptron(*params[best_idx])
+perceptron(tanh,derrTanhW,derrTanhTheta, 1, use_line_search=True, plot_title='Tanh Activation')
+perceptron(gaussianRBF, derrGaussianW, derrGaussianTheta, 10, plot_title='Gaussian Activation')
 
 m = trainL2SVMPolyKernel(X,y,2, b=1)
 plot_svm_classification(X, y, m, 2, 1)

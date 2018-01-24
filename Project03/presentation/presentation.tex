@@ -3,7 +3,10 @@
 \usepackage[utf8]{inputenc}
 
 \usepackage{graphicx}
-%\usepackage{svg}
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd{\Ginclude@eps}{"#1"}{#1}{}{}
+\makeatother
 %\usepackage{wrapfig}
 %\usepackage{eurosym}
 %\usepackage{tabularx}
@@ -25,7 +28,7 @@
 %    seahorse, whale and the one and only wolverine
 
 \title[Project 3]{Project 3}
-\subtitle{Least squares regression and nearest neighbor classifiers}
+\subtitle{clustering, dimensionality reduction, and non-monotonous neurons}
 \author{Lukas Drexler, Leif Van Holland, Reza Jahangiri,\\Mark Springer, Maximilian Thiessen}
 \institute[Universität Bonn]{Rheinische Friedrich-Wilhelms-Universität}
 \date{\today}
@@ -137,33 +140,65 @@ $\Rightarrow$ Preserves as much \emph{discriminatory} information as possible.\\
 
 
 \section{Task 3.4}
-
 \begin{frame}
-	\frametitle{Non-monotonous neurons}
-	\begin{align*}
-		y(\mathbf{x}) &= f(\mathbf{w}^T\mathbf{x}-\theta)\\
-		f(z) &= \tanh(\beta z)
-	\end{align*}
-	\begin{align*}
-		y(\mathbf{x})&= f(\mathbf{w},\mathbf{x},\theta)\\
-		\text{where }\\
-		f(\mathbf{w},\mathbf{x},\theta) &= 2\cdot\exp\left[-\frac{1}{2}(\mathbf{w}^T\mathbf{x}-\theta)^2\right]-1
-	\end{align*}
+	\frametitle{Perceptrons}
+	\begin{itemize}
+	\item Gradient descent for perceptron learning:
+		\begin{itemize}
+			\item line search version
+			\item use best result of $k$ runs, to prevent local minima
+			\item monotonous activation separates only linearly
+			\item avoid this limitation with non-monotonous activation 	
+		\end{itemize}
+	\end{itemize}
 \end{frame}
 \begin{frame}
-	\begin{align*}
-	E = \frac{1}{2}\sum_{i=1}^{n}(y(\mathbf{x_i})-y_i)^2\\
-	\theta_{t+1} = \theta_{t} - \eta_\theta \frac{\partial E}{\partial \theta}\\
-	\omega_{t+1} = \omega_{t} - \eta_\omega \frac{\partial E}{\partial \omega}\\
-	\end{align*}
-	\begin{align*}
-		k(\mathbf{a},\mathbf{b}) = (\mathbf{a}^T\mathbf{b}+c)^d
-	\end{align*}
+	\frametitle{Monotonous Perceptron (tanh)}
+	\includegraphics[width=0.5\textwidth]{"graphics/Tanh Activation (init)"}%
+	\includegraphics[width=0.5\textwidth]{"graphics/Tanh Activation (best of 1)"}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Non-monotonous Perceptron (Gaussian)}
+	\includegraphics[width=0.5\textwidth]{"graphics/Gaussian Activation (init)"}%
+	\includegraphics[width=0.5\textwidth]{"graphics/Gaussian Activation (best of 10)"}
+\end{frame}
+
+\begin{frame}
+	\frametitle{SVM}
+	\begin{itemize}
+		\item L2-SVM with polynomial kernel:
+		\begin{itemize}
+			\item Train with Frank-Wolfe algorithm
+			\item $d=2$ (i.e. quadratic kernel) is enough	
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+\begin{frame}
+	\frametitle{Polynomial Kervel SVM}
+	\centering
+	\includegraphics[width=0.9\textwidth]{graphics/svm}%
 \end{frame}
 
 \section{Task 3.5}
 \begin{frame}
+Although we would expect the same results for all 4 methods, we get different results.
+\end{frame}
+\begin{frame}
 	\frametitle{Exploring numerical instabilities}
+	\vspace{0.2cm}
+	\begin{columns}[t]
+		\column{.5\textwidth}
+		\centering
+		\includegraphics[width=0.9\linewidth]{graphics/polyfit_mark}\\
+		\vspace{0.2cm}
+		\includegraphics[width=0.9\linewidth]{graphics/polyvander_pinv_transformed_mark}
+		\column{.5\textwidth}
+		\centering
+		\includegraphics[width=0.9\linewidth]{graphics/polyvander_pinv_mark}\\
+		\vspace{0.2cm}
+		\includegraphics[width=0.9\linewidth]{graphics/polyvander_lstsq_mark}
+	\end{columns}
 \end{frame}
 
 

@@ -141,10 +141,17 @@ $\Rightarrow$ Preserves as much \emph{discriminatory} information as possible.\\
 
 \section{Task 3.4}
 \begin{frame}
-	\frametitle{Perceptrons and SVM}
+	\frametitle{Perceptrons}
 	\begin{itemize}
-	\item 	
+	\item Gradient descent for perceptron learning:
+		\begin{itemize}
+			\item line search version
+			\item use best result of $k$ runs, to prevent local minima
+			\item monotonous activation separates only linearly
+			\item avoid this limitation with non-monotonous activation 	
+		\end{itemize}
 	\end{itemize}
+\end{frame}
 \begin{frame}
 	\frametitle{Monotonous Perceptron (tanh)}
 	\includegraphics[width=0.5\textwidth]{"graphics/Tanh Activation (init)"}%
@@ -152,26 +159,25 @@ $\Rightarrow$ Preserves as much \emph{discriminatory} information as possible.\\
 \end{frame}
 
 \begin{frame}
-	\frametitle{Non-monotonous Perceptron (Gaussian RBF)}
+	\frametitle{Non-monotonous Perceptron (Gaussian)}
 	\includegraphics[width=0.5\textwidth]{"graphics/Gaussian Activation (init)"}%
 	\includegraphics[width=0.5\textwidth]{"graphics/Gaussian Activation (best of 10)"}
 \end{frame}
 
 \begin{frame}
+	\frametitle{SVM}
+	\begin{itemize}
+		\item L2-SVM with polynomial kernel:
+		\begin{itemize}
+			\item Train with Frank-Wolfe algorithm
+			\item $d=2$ (i.e. quadratic kernel) is enough	
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+\begin{frame}
 	\frametitle{Polynomial Kervel SVM}
 	\centering
 	\includegraphics[width=0.9\textwidth]{graphics/svm}%
-\end{frame}
-
-\begin{frame}
-	\begin{align*}
-	E = \frac{1}{2}\sum_{i=1}^{n}(y(\mathbf{x_i})-y_i)^2\\
-	\theta_{t+1} = \theta_{t} - \eta_\theta \frac{\partial E}{\partial \theta}\\
-	\omega_{t+1} = \omega_{t} - \eta_\omega \frac{\partial E}{\partial \omega}\\
-	\end{align*}
-	\begin{align*}
-		k(\mathbf{a},\mathbf{b}) = (\mathbf{a}^T\mathbf{b}+c)^d
-	\end{align*}
 \end{frame}
 
 \section{Task 3.5}

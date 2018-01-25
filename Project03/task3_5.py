@@ -19,6 +19,11 @@ ymin = wgt.min()-15
 ymax = wgt.max()+15
 
 
+plt.plot(hgt,wgt,'ko')
+plt.xlim(xmin,xmax)
+plt.ylim(ymin,ymax)
+#plt.savefig('hw_data.png',dpi=200, transparent=True)
+
 def plot_data_and_fit(h, w, x, y):
     plt.figure()
     plt.plot(h, w, 'ko', x, y, 'r-')
@@ -73,12 +78,14 @@ plot_data_and_fit(hgt, wgt, x, y)
 print("transf vand error = ",get_error(hgt,wgt,x,y), la.cond(X))
 # method 5:
 # regression on transformed data using the Vandermonde and Tikhonov regularization
-lam = 1#0.004765
+lam = 0.5#0.004765
 X = np.vstack((poly.polyvander(trsf(hgt), n), lam*np.identity(n+1)))
 t_wgt = np.hstack((wgt, np.zeros((n+1,))))
 c = la.lstsq(X,t_wgt)[0]
 y = np.dot(poly.polyvander(trsf(x),n), c)
 plot_data_and_fit(hgt, wgt, x, y)
+plt.suptitle('regularized least squares')
+#plt.savefig('regularized_fit.png',dpi=200,transparent=True)
 print("trans regul error = ",get_error(hgt,wgt,x,y),la.cond(X))
 # method 6:
 # regression using scipy solver

@@ -50,7 +50,33 @@
 
 \begin{frame}
 \frametitle{Fun with k-means clustering}
+Compare the results and runtimes of three different approaches for k-means clustering:
+\begin{itemize}
+\item Lloyd's algorithm
+\item MacQueen's algorithm
+\item Hartigan's algorithm
+\end{itemize}
+for $k=3$ clusters.
+\end{frame}
 
+\begin{frame}
+\frametitle{Given data set}
+\includegraphics[width=\linewidth]{graphics/kmeans_data}
+\end{frame}
+
+\begin{frame}
+\frametitle{Lloyd's algorithm}
+\includegraphics[width=\linewidth]{graphics/lloyd_results}
+\end{frame}
+
+\begin{frame}
+\frametitle{MacQueen's algorithm}
+\includegraphics[width=\linewidth]{graphics/macqueen_results}
+\end{frame}
+
+\begin{frame}
+\frametitle{Hartigan's algorithm}
+\includegraphics[width=\linewidth]{graphics/hartigan_results}
 \end{frame}
 
 %\begin{frame}
@@ -182,10 +208,15 @@ $\Rightarrow$ Preserves as much \emph{discriminatory} information as possible.\\
 
 \section{Task 3.5}
 \begin{frame}
-Although we would expect the same results for all 4 methods, we get different results.
-\end{frame}
-\begin{frame}
 	\frametitle{Exploring numerical instabilities}
+	\centering\includegraphics[width=0.8\textwidth]{graphics/hw_data}
+	\begin{description}
+	\item[Task:] Fit a 10th order polynomial to this data using different approaches.
+	\end{description}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Resulting fits}
 	\vspace{0.2cm}
 	\begin{columns}[t]
 		\column{.5\textwidth}
@@ -201,6 +232,16 @@ Although we would expect the same results for all 4 methods, we get different re
 	\end{columns}
 \end{frame}
 
+\begin{frame}
+	\frametitle{Regularized least squares}
+	\centering\includegraphics[width=0.8\textwidth]{graphics/regularized_fit} \\
+	Using Tikhonov-regularization ($\lambda=0.5$) yields a result that is closer to the more erroneous results from last slide.
+\end{frame}
+
+\begin{frame}
+\centering
+{\huge Thank you for your attention!}
+\end{frame}
 
 %\bibliography{Bibliography}
 %\bibliographystyle{plain}

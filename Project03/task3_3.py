@@ -41,11 +41,12 @@ sb = np.sum(np.matmul(means, np.transpose(means,axes=(0,2,1))),axis=0)
 
 # calculate eigvecs of sw^(-1) * sb
 w, v = np.linalg.eig(np.dot(np.linalg.inv(sw),sb))
-
+w = np.real(w)
+v = np.real(v)
 # project data
 sorted = np.argsort(w)
-lda_projected2d = np.real(np.dot(v[:, sorted[[-1, -2]]].T, x))
-lda_projected3d = np.real(np.dot(v[:, sorted[[-1, -2, -3]]].T, x))
+lda_projected2d = np.dot(v[:, sorted[[-1, -2]]].T, x)
+lda_projected3d = np.dot(v[:, sorted[[-1, -2, -3]]].T, x)
 
 # -------------
 # visualization

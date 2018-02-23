@@ -40,9 +40,7 @@ sw = np.sum(covs, axis=0)
 sb = np.sum(np.matmul(means, np.transpose(means,axes=(0,2,1))),axis=0)
 
 # calculate eigvecs of sw^(-1) * sb
-w, v = np.linalg.eig(np.dot(np.linalg.inv(sw),sb))
-w = np.real(w)
-v = np.real(v)
+w, v = np.linalg.eigh(np.dot(np.linalg.inv(sw),sb))
 # project data
 sorted = np.argsort(w)
 lda_projected2d = np.dot(v[:, sorted[[-1, -2]]].T, x)

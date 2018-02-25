@@ -36,11 +36,14 @@ covs = 1./n * np.matmul(norm_classes, np.transpose(norm_classes,axes=(0,2,1)))
 # within class scatter matrix
 sw = np.sum(covs, axis=0)
 
+#compute overall mean
+mean = np.sum(means*n, axis=0)/150.
+
 # between class scatter matrix
-sb = np.sum(np.matmul(means, np.transpose(means,axes=(0,2,1))),axis=0)
+sb = np.sum(np.matmul(means-mean, np.transpose(means-mean,axes=(0,2,1))),axis=0)
 
 # calculate eigvecs of sw^(-1) * sb
-w, v = np.linalg.eig(np.dot(np.linalg.inv(sw),sb))
+w, v = np.linalg.eigh(np.dot(np.linalg.inv(sw),sb))
 
 # project data
 sorted = np.argsort(w)
